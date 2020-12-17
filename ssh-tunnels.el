@@ -289,6 +289,13 @@ become irrelevant if `ssh-tunnels-configurations' changes.")
               (cond ((string= tunnel-type "-D")
                      (format "%s:%s" host local-port))
                     ; Default Local/Remote port forwarding
+                    ((string= tunnel-type "-R")
+                     (format "%s:%s:%s"
+                             remote-port
+                             (if (string-match-p (regexp-quote ":") host)
+                                 (format "[%s]" host)
+                               host)
+                             local-port))
                     (t (format "%s:%s:%s"
                                local-port
                                (if (string-match-p (regexp-quote ":") host)
